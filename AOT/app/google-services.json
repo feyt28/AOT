@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "320835210951",
+    "firebase_url": "https://quarantinemonitoring.firebaseio.com",
+    "project_id": "quarantinemonitoring",
+    "storage_bucket": "quarantinemonitoring.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320835210951:android:511ab5093b3e9e8d",
+        "android_client_info": {
+          "package_name": "dev.aot.markkevindalbios.quarantinemonitoring"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320835210951-ag6qkkfggmskqngdqcrh0to9n9t5tmi8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.aot.markkevindalbios.quarantinemonitoring",
+            "certificate_hash": "3dcc6de1eda45d55b27aaa376514b0e45a7fd06f"
+          }
+        },
+        {
+          "client_id": "320835210951-i7as9ss6ma5krsmkqvnokhkjfg3hqsk7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDl_Wdut-flsZvc1sTMgcoK9AO4Vb5c5w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320835210951-i7as9ss6ma5krsmkqvnokhkjfg3hqsk7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320835210951:android:9d99916ba6091158",
+        "android_client_info": {
+          "package_name": "com.example.androidthings.imageclassifier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320835210951-8ou8vmjquooonr93llm2amb4lgc5dosh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.androidthings.imageclassifier",
+            "certificate_hash": "ae23e92be8310dc0a731b09b76d9ce5870ca3f7b"
+          }
+        },
+        {
+          "client_id": "320835210951-i7as9ss6ma5krsmkqvnokhkjfg3hqsk7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDl_Wdut-flsZvc1sTMgcoK9AO4Vb5c5w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320835210951-i7as9ss6ma5krsmkqvnokhkjfg3hqsk7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
