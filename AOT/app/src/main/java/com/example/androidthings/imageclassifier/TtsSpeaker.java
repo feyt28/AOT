@@ -38,14 +38,14 @@ public class TtsSpeaker {
     private static final List<Utterance> SHUTTER_SOUNDS = new ArrayList<>();
     private static final List<Utterance> JOKES = new ArrayList<>();
     static {
-        SHUTTER_SOUNDS.add(new ShutterUtterance("Hi JM"));
+        SHUTTER_SOUNDS.add(new ShutterUtterance("Hi Mark"));
         SHUTTER_SOUNDS.add(new ShutterUtterance("Hi Rick"));
         SHUTTER_SOUNDS.add(new ShutterUtterance("Hi Franz!"));
 
-        JOKES.add(new SimpleUtterance("It's a bird! It's a plane! It's... it's..."));
-        JOKES.add(new SimpleUtterance("Oops, someone left the lens cap on! Just kidding..."));
-        JOKES.add(new SimpleUtterance("Hey, that looks like me! Just kidding..."));
-        JOKES.add(new ISeeDeadPeopleUtterance());
+//        JOKES.add(new SimpleUtterance("It's a bird! It's a plane! It's... it's..."));
+//        JOKES.add(new SimpleUtterance("Oops, someone left the lens cap on! Just kidding..."));
+//        JOKES.add(new SimpleUtterance("Hey, that looks like me! Just kidding..."));
+//        JOKES.add(new ISeeDeadPeopleUtterance());
     }
 
     /**
@@ -94,9 +94,9 @@ public class TtsSpeaker {
                         TextToSpeech.QUEUE_ADD, null, UTTERANCE_ID);
             }
         } else {
-            if (isFeelingFunnyNow()) {
-                playJoke(tts);
-            }
+//            if (isFeelingFunnyNow()) {
+//                playJoke(tts);
+//            }
             if (results.size() == 1
                     || results.get(0).getConfidence() > SINGLE_ANSWER_CONFIDENCE_THRESHOLD) {
                 tts.speak(String.format(Locale.getDefault(),

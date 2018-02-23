@@ -1,6 +1,79 @@
 {
     "logs": [
         {
+            "outputFile": "/Users/markie26/Documents/Android/AOT/AOT/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+            "map": [
+                {
+                    "source": "/Users/markie26/.gradle/caches/transforms-1/files-1.1/play-services-basement-11.0.4.aar/70bbc8c025a792d95f6cd6d6168378d0/res/values/values.xml",
+                    "from": {
+                        "startLines": "4,7",
+                        "startColumns": "0,0",
+                        "startOffsets": "276,439",
+                        "endColumns": "63,166",
+                        "endOffsets": "339,605"
+                    },
+                    "to": {
+                        "startLines": "4,7",
+                        "startColumns": "4,4",
+                        "startOffsets": "474,676",
+                        "endColumns": "67,166",
+                        "endOffsets": "537,838"
+                    }
+                },
+                {
+                    "source": "/Users/markie26/Documents/Android/AOT/AOT/app/src/main/res/values/colors.xml",
+                    "from": {
+                        "startLines": "17",
+                        "startColumns": "4",
+                        "startOffsets": "650",
+                        "endColumns": "54",
+                        "endOffsets": "700"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "54",
+                        "endOffsets": "155"
+                    }
+                },
+                {
+                    "source": "/Users/markie26/Documents/Android/AOT/AOT/app/build/generated/res/google-services/debug/values/values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,314,396,500,603,723,827",
+                        "endColumns": "143,114,81,103,102,119,103,80",
+                        "endOffsets": "194,309,391,495,598,718,822,903"
+                    },
+                    "to": {
+                        "startLines": "8,10,11,12,13,14,15,17",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "843,1037,1152,1234,1338,1441,1561,1763",
+                        "endColumns": "143,114,81,103,102,119,103,80",
+                        "endOffsets": "982,1147,1229,1333,1436,1556,1660,1839"
+                    }
+                },
+                {
+                    "source": "/Users/markie26/Documents/Android/AOT/AOT/app/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "16,19,17,20,18",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "649,834,700,917,750",
+                        "endColumns": "50,82,49,97,83",
+                        "endOffsets": "695,912,745,1010,829"
+                    },
+                    "to": {
+                        "startLines": "5,6,9,16,18",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "542,593,987,1665,1844",
+                        "endColumns": "50,82,49,97,83",
+                        "endOffsets": "588,671,1032,1758,1923"
+                    }
+                }
+            ]
+        },
+        {
             "outputFile": "/Users/markie26/Documents/Android/sample-tensorflow-imageclassifier/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
             "map": [
                 {

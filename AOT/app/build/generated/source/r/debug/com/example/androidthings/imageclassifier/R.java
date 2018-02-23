@@ -46,26 +46,15 @@ public final class R {
   }
   public static final class drawable {
     public static final int angelina=0x7f030000;
-    public static final int angelina1=0x7f030001;
-    public static final int angelina2=0x7f030002;
-    public static final int angelina3=0x7f030003;
-    public static final int angelina4=0x7f030004;
-    public static final int bomberman=0x7f030005;
-    public static final int brad1=0x7f030006;
-    public static final int brad2=0x7f030007;
-    public static final int brad3=0x7f030008;
-    public static final int brad4=0x7f030009;
-    public static final int bradpitt=0x7f03000a;
-    public static final int cat=0x7f03000b;
-    public static final int inuyasha=0x7f03000c;
-    public static final int mario=0x7f03000d;
-    public static final int mvsb=0x7f03000e;
-    public static final int quarantine_icon=0x7f03000f;
-    public static final int rick=0x7f030010;
-    public static final int rick1=0x7f030011;
-    public static final int rick2=0x7f030012;
-    public static final int rick3=0x7f030013;
-    public static final int rick4=0x7f030014;
+    public static final int ben=0x7f030001;
+    public static final int bomberman=0x7f030002;
+    public static final int bradpitt=0x7f030003;
+    public static final int cat=0x7f030004;
+    public static final int david=0x7f030005;
+    public static final int mario=0x7f030006;
+    public static final int quarantine_icon=0x7f030007;
+    public static final int rick=0x7f030008;
+    public static final int will=0x7f030009;
   }
   public static final class id {
     public static final int container=0x7f040000;

@@ -1,4 +1,4 @@
-#Tue Feb 20 17:02:27 PHT 2018
-base.0=/Users/markie26/Documents/Android/AndroidThingsRepo/AOT/app/build/intermediates/transforms/dexMerger/debug/0
+#Fri Feb 23 17:08:35 PHT 2018
+base.0=/Users/markie26/Documents/Android/AOT/AOT/app/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

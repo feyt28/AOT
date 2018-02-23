@@ -97,13 +97,13 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
         mResultViews[1] = (TextView) findViewById(R.id.result2);
         mResultViews[2] = (TextView) findViewById(R.id.result3);
 
+        init();
         getServerSettings();
-        //init();
     }
 
     private void getServerSettings(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference settingsRef = database.getReference("Settings");
+        final DatabaseReference settingsRef = database.getReference("Settings");
         settingsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -111,6 +111,16 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
                 int server_trigger = Integer.parseInt(dataSnapshot.child("time_trigger").getValue().toString());
                 TIME_TRIGGER = TIME_SEC * TIME_MIN * server_trigger;
                 Log.d(TAG, "Time Trigger: " + TIME_TRIGGER);
+                mTimerHandler.postDelayed(mBackgroundTimerHandler, TIME_TRIGGER);
+
+                //Manual Trigger
+                int manualTrigger = Integer.parseInt(dataSnapshot.child("manual_trigger").getValue().toString());
+                Log.d(TAG, "Manual Trigger: " + manualTrigger);
+                if(manualTrigger == 1){
+                    Log.d(TAG, "Manual Enabled");
+                    mBackgroundHandler.post(mBackgroundClickHandler);
+                    settingsRef.child("manual_trigger").setValue(0);
+                }
             }
 
             @Override
@@ -120,23 +130,51 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
         });
     }
 
+    private void showDialog(String message){
+        try{
+            if(progressDialog==null){
+                progressDialog = new ProgressDialog(ImageClassifierActivity.this);
+                progressDialog.setIndeterminate(true);
+            }
+            progressDialog.setMessage(message);
+            progressDialog.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private void hideDialog(){
+        try{
+            if(progressDialog==null){
+                progressDialog = new ProgressDialog(ImageClassifierActivity.this);
+                progressDialog.setIndeterminate(true);
+            }
+            if(progressDialog.isShowing()){
+                progressDialog.hide();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void init() {
 
         if (isAndroidThingsDevice(this)) {
             initPIO();
         }
 
+        progressDialog = new ProgressDialog(ImageClassifierActivity.this);
+        progressDialog.setIndeterminate(true);
+
         mBackgroundThread = new HandlerThread("BackgroundThread");
         mBackgroundThread.start();
-
-        mTimerThread = new HandlerThread("TimerThread");
-        mTimerThread.start();
 
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
         mBackgroundHandler.post(mInitializeOnBackground);
 
-        mTimerHandler = new Handler(mTimerThread.getLooper());
-        mTimerHandler.postDelayed(mBackgroundTimerHandler, TIME_TRIGGER);
+        mTimerHandler = new Handler(mBackgroundThread.getLooper());
+        //mTimerHandler.postDelayed(mBackgroundTimerHandler, TIME_TRIGGER);
 
         setReady(true);
         // Let the user touch the screen to take a photo
@@ -144,10 +182,9 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
             @Override
             public void onClick(View v) {
                 if (mReady.get()) {
-                    progressDialog = new ProgressDialog(ImageClassifierActivity.this);
-                    progressDialog.setIndeterminate(true);
-                    progressDialog.setMessage("Processing Image");
-                    progressDialog.show();
+                    showDialog("Processing Image");
+//                    progressDialog.setMessage("Processing Image");
+//                    progressDialog.show();
                     setReady(false);
                     mBackgroundHandler.post(mBackgroundClickHandler);
                 } else {
@@ -217,10 +254,11 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    progressDialog = new ProgressDialog(ImageClassifierActivity.this);
-                    progressDialog.setIndeterminate(true);
-                    progressDialog.setMessage("Processing Image");
-                    progressDialog.show();
+                    showDialog("Processing Image");
+//                    progressDialog = new ProgressDialog(ImageClassifierActivity.this);
+//                    progressDialog.setIndeterminate(true);
+//                    progressDialog.setMessage("Processing Image");
+//                   progressDialog.show();
                 }
             });
 
@@ -267,10 +305,11 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
         Log.d(TAG, "Received key up: " + keyCode + ". Ready = " + mReady.get());
         if (keyCode == KeyEvent.KEYCODE_ENTER) {
             if (mReady.get()) {
-                progressDialog = new ProgressDialog(this);
-                progressDialog.setIndeterminate(true);
-                progressDialog.setMessage("Processing Image");
-                progressDialog.show();
+                showDialog("Processing Image");
+//                progressDialog = new ProgressDialog(this);
+//                progressDialog.setIndeterminate(true);
+//                progressDialog.setMessage("Processing Image");
+//                progressDialog.show();
                 setReady(false);
                 mBackgroundHandler.post(mBackgroundClickHandler);
             } else {
@@ -300,13 +339,6 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
             bitmap = mImagePreprocessor.preprocessImage(image);
         }
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mImage.setImageBitmap(bitmap);
-            }
-        });
-
         final List<Classifier.Recognition> results = mTensorFlowClassifier.doRecognize(bitmap);
 
         Log.d(TAG, "Got the following results from Tensorflow: " + results);
@@ -322,16 +354,18 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                for (int i = 0; i < mResultViews.length; i++) {
-                    if (results.size() > i) {
+                mImage.setImageBitmap(bitmap);
+
+                if(results.size() > 0){
+                    for(int i=0; i<results.size(); i++){
                         Classifier.Recognition r = results.get(i);
-                        //mResultViews[i].setText(r.getTitle() + " : " + r.getConfidence().toString());
-                        mResultViews[i].setText(r.getTitle());
-                    } else {
-                        mResultViews[i].setText(null);
+                        mResultViews[i].setText(r.getTitle() );
                     }
+                }else {
+                    mResultViews[0].setText("Unknown Image!");
                 }
-                progressDialog.dismiss();
+
+                hideDialog();
                 setReady(true);
             }
         });
@@ -342,51 +376,24 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
 
         //randomize images
         Random rn = new Random();
-        switch (rn.nextInt(16) + 1){
+        switch (rn.nextInt(6) + 1){
             case 1:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.bradpitt);
+                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.bomberman);
                 break;
             case 2:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.angelina);
-                break;
-            case 3:
                 bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.rick);
                 break;
+            case 3:
+                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.cat);
+                break;
             case 4:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.rick1);
+                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.ben);
                 break;
             case 5:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.rick2);
+                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.david);
                 break;
             case 6:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.rick3);
-                break;
-            case 7:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.rick4);
-                break;
-            case 8:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.brad1);
-                break;
-            case 9:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.brad2);
-                break;
-            case 10:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.brad3);
-                break;
-            case 12:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.brad4);
-                break;
-            case 13:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.angelina1);
-                break;
-            case 14:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.angelina2);
-                break;
-            case 15:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.angelina3);
-                break;
-            case 16:
-                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.angelina4);
+                bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.will);
                 break;
             default:
                 bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.rick);
@@ -409,21 +416,17 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
             @Override
             public void run() {
                 mImage.setImageBitmap(bitmap);
-                for (int i = 0; i < mResultViews.length; i++) {
-                    if (results.size() > i) {
+
+                if(results.size() > 0){
+                    for(int i=0; i<results.size(); i++){
                         Classifier.Recognition r = results.get(i);
-                        //mResultViews[i].setText(r.getTitle() + " : " + r.getConfidence().toString());
                         mResultViews[i].setText(r.getTitle() );
-                    } else {
-                        mResultViews[i].setText(null);
                     }
+                }else {
+                    mResultViews[0].setText("Unknown Image!");
                 }
-                try{
-                    if(progressDialog.isShowing()){
-                        progressDialog.dismiss();
-                    }
-                }catch (Exception e){
-                }
+
+                hideDialog();
                 setReady(true);
             }
         });
@@ -454,6 +457,12 @@ public class ImageClassifierActivity extends Activity implements ImageReader.OnI
             if (mButtonDriver != null) mButtonDriver.close();
         } catch (Throwable t) {
             // close quietly
+        }
+
+        try{
+            if (progressDialog != null) progressDialog.dismiss();
+        } catch (Exception e){
+
         }
 
         if (mTtsEngine != null) {

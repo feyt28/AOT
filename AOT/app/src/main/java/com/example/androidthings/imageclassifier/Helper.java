@@ -59,6 +59,8 @@ public class Helper {
     public static final int IMAGE_SIZE = 299;
     public static final int IMAGE_MEAN = 128;
     public static final float IMAGE_STD = 128f;
+//    public static final String LABELS_FILE = "labels.txt";
+//    public static final String MODEL_FILE = "file:///android_asset/model.pb";
     public static final String LABELS_FILE = "retrained_labels.txt";
     public static final String MODEL_FILE = "file:///android_asset/rounded_graph.pb";
     public static final String INPUT_NAME = "Mul";
